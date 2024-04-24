@@ -1,0 +1,28 @@
+// data-access.js
+async function getCustomerById(id) {
+    try {
+        const customer = await collection.findOne({"id": +id});
+        // return array [customer, errMessage]
+        if(!customer){
+          return [ null, "invalid customer number"];
+        }
+        return [customer, null];
+    } catch (err) {
+        console.log(err.message);
+        return [null, err.message];
+    }
+}
+
+
+// server.js
+app.get("/customers/:id", async (req, res) => {
+     const id = req.params.id;
+     // return array [customer, errMessage]
+     const [cust, err] = await da.getCustomerById(id);
+     if(cust){
+         res.send(cust);
+     }else{
+         res.status(404);
+         res.send(err);
+     }   
+});

@@ -1,0 +1,5 @@
+// server.js file
+app.get("/customers", async (req, res) => {
+    const cust = await da.getCustomers();
+    res.send(cust);    
+});
