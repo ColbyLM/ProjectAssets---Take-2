@@ -12,6 +12,7 @@ async function dbStartup() {
     collection = client.db(dbName).collection(collectionName);
 }
 
+// Awaiting collection for the get customer array
 async function getCustomers() {
     return await collection.find().toArray();
 }
@@ -19,6 +20,8 @@ async function getCustomers() {
 dbStartup();
 module.exports = { getCustomers };
 
+// This is trying to get the array of customers by the id it is assigned. If nothing it will show invalid
+// customer. This will also log in the console if something fails. 
 async function getCustomerById(id) {
     try {
         const customer = await collection.findOne({"id": +id});
