@@ -18,7 +18,7 @@ async function getCustomers() {
 }
 
 dbStartup();
-module.exports = { getCustomers, resetCustomers };
+module.exports = { getCustomers, resetCustomers, addCustomer };
 
 async function getCustomers() {
     try {
@@ -45,5 +45,16 @@ async function resetCustomers() {
     } catch (err) {
         console.log(err.message);
         return [null, err.message];
+    }
+}
+
+async function addCustomer(newCustomer) {
+    try {
+        const insertResult = await collection.insertOne(newCustomer);
+        // return array [status, id, errMessage]
+        return ["success", insertResult.insertedId, null];
+    } catch (err) {
+        console.log(err.message);
+        return ["fail", null, err.message];
     }
 }
