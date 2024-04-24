@@ -20,16 +20,11 @@ async function getCustomers() {
 dbStartup();
 module.exports = { getCustomers };
 
-// This is trying to get the array of customers by the id it is assigned. If nothing it will show invalid
-// customer. This will also log in the console if something fails. 
-async function getCustomerById(id) {
+async function getCustomers() {
     try {
-        const customer = await collection.findOne({"id": +id});
-        // return array [customer, errMessage]
-        if(!customer){
-          return [ null, "invalid customer number"];
-        }
-        return [customer, null];
+        const customers = await collection.find().toArray();
+        // throw {"message":"an error occured"};
+        return [customers, null];
     } catch (err) {
         console.log(err.message);
         return [null, err.message];
