@@ -10,3 +10,16 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });
+
+app.get("/customers/:id", async (req, res) => {
+  const id = req.params.id;
+  // return array [customer, errMessage]
+  const [cust, err] = await da.getCustomerById(id);
+  if(cust){
+      res.send(cust);
+  }else{
+      res.status(404);
+      res.send(err);
+  }   
+});
+
