@@ -22,6 +22,8 @@ app.get("/customers", async (req, res) => {
   res.send(cust);    
 });
 
+// This will get the customer information that is set in the query. If successful it will display the information. 
+// Upon failure it will send a 500 error. 
 app.get("/customers", async (req, res) => {
   const [cust, err] = await da.getCustomers();
   if(cust){
@@ -32,6 +34,9 @@ app.get("/customers", async (req, res) => {
   }   
 });
 
+// This is a reset function that will check the current query of information and regardless of the result 
+// it will reset back to the static set of infomration outlined in the reset function in data-access.js. If 
+//successful it will send the result. If not it will send a 500 error.
 app.get("/reset", async (req, res) => {
   const [result, err] = await da.resetCustomers();
   if(result){
@@ -44,6 +49,9 @@ app.get("/reset", async (req, res) => {
 
 app.use(bodyParser.json());
 
+// With the post property. It will check the information in postman and make sure it is not an empty submission.
+// If there are any missing components within postman during the post attempt it will alert that there are missing 
+// properties. If it is able to communicate and has the required information it will post the infromation with a success message.
 app.post('/customers', async (req, res) => {
   const newCustomer = req.body;
   // Check if the request body is missing
@@ -67,6 +75,8 @@ app.post('/customers', async (req, res) => {
      }
  });
 
+ // This will get the customer id and check if it exists. If successful it will display the information.
+ // if unsuccessful then it will error out. 
  app.get("/customers/:id", async (req, res) => {
   const id = req.params.id;
   // return array [customer, errMessage]
@@ -79,6 +89,8 @@ app.post('/customers', async (req, res) => {
   }   
 });
 
+// This will check the requested customer id and see if it exists. If successful it will go through and update the information.
+// If not it will show the error 400 with the error message. 
 app.put('/customers/:id', async (req, res) => {
   const id = req.params.id;
   const updatedCustomer = req.body;
@@ -97,6 +109,8 @@ app.put('/customers/:id', async (req, res) => {
   }
 });
 
+// This will check on this current list of customer infomration and if it sees the request of a specific id
+// it will go through and delete it. If failed it will give a 404 error and show the error message in postman. 
 app.delete("/customers/:id", async (req, res) => {
   const id = req.params.id;
   // return array [message, errMessage]
